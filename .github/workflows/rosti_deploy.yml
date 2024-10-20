@@ -13,7 +13,6 @@ jobs:
       HOST: ssh.rosti.cz
       USER: app
       PORT: 13988
-      NODE_VERSION: 22.9.0
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -30,15 +29,6 @@ jobs:
           cat << EOF > .env
           ${{ secrets.ENV }}
           EOF
-      - name: Dependencies
-        run: |
-          npm install
-      - name: Build
-        run: |
-          npm run build
-      - name: Setup Node.js
-        run: |
-          ssh -o UserKnownHostsFile=./known_hosts -p $PORT $USER@$HOST /usr/local/bin/rosti node $NODE_VERSION
       - name: Setup Supervisord
         run: |
           cat << EOF > rosti.app.conf
